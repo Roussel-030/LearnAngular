@@ -29,14 +29,14 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>Date de création</td>
+                                <td>Date de création</td> 
                                 <td><em>{{ pokemon.created | date:"dd/MM/yyyy" }}</em></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="card-action">
-                    <a>Retour</a>
+                    <a (click)="goToPokemonList()">Retour</a>
                 </div>
             </div>
         </div>
