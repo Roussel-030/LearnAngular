@@ -2,20 +2,28 @@ import { Component, Input, OnInit } from "@angular/core";
 import { PokemonService } from "../pokemon.service";
 import { Pokemon } from "../pokemon";
 import { Router } from "@angular/router";
+import { PokemonTypeColorPipe } from "../pokemon-type-color.pipe";
+import { LoaderComponent } from "../loader/loader.component";
+import { FormsModule } from "@angular/forms";
+import { NgIf, NgFor } from "@angular/common";
 
 @Component({
-  selector: "app-pokemon-form",
-  templateUrl: "./pokemon-form.component.html",
-  styleUrls: ["./pokemon-form.component.css"]
+    selector: "app-pokemon-form",
+    templateUrl: "./pokemon-form.component.html",
+    styleUrls: ["./pokemon-form.component.css"],
+    standalone: true,
+    imports: [NgIf, FormsModule, NgFor, LoaderComponent, PokemonTypeColorPipe]
 })
 export class PokemonFormComponent implements OnInit {
   @Input() pokemon: Pokemon;
   types: string[];
+  isAddForm: boolean;
 
   constructor(private pokemonService: PokemonService, private router: Router) {}
 
   ngOnInit(): void {
     this.types = this.pokemonService.getPokemonTypeList();
+    this.isAddForm = this.router.url.includes("add");
   }
 
   hasType(type: string): boolean {
@@ -34,10 +42,10 @@ export class PokemonFormComponent implements OnInit {
   }
 
   isTypesValid(type: string): boolean {
-    if(this.pokemon.types.length == 1 && this.hasType(type)) {
+    if (this.pokemon.types.length == 1 && this.hasType(type)) {
       return false;
     }
-    if(this.pokemon.types.length > 2 && !this.hasType(type)) {
+    if (this.pokemon.types.length > 2 && !this.hasType(type)) {
       return false;
     }
 
@@ -45,7 +53,14 @@ export class PokemonFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log("Submit form !");
-    this.router.navigate(["/pokemon", this.pokemon.id]); 
+    if (this.isAddForm) {
+      this.pokemonService
+        .addPokemon(this.pokemon)
+        .subscribe((pokemon: Pokemon) => this.router.navigate(["/pokemon", pokemon.id]));
+    } else {
+      this.pokemonService
+        .updatePokemon(this.pokemon)
+        .subscribe(() => this.router.navigate(["/pokemon", this.pokemon.id]));
+    }
   }
 }

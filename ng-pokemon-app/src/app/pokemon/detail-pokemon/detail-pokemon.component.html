@@ -7,7 +7,7 @@
             </div>
             <div class="card-stacked">
                 <div class="card-content">
-                    <table class="bordered striped">
+                    <table class="bordered striped"> 
                         <tbody>
                             <tr>
                                 <td>Nom</td>
@@ -38,9 +38,12 @@
                 <div class="card-action">
                     <a (click)="goToPokemonList()">Retour</a> 
                     <a (click)="goToPokemonEdit(pokemon)">Editer</a>
+                    <a (click)="deletePokemon(pokemon)">Supprimer</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<h4 *ngIf='!pokemon' class="center">Aucun pokémon à afficher !</h4>
+<h4 *ngIf='!pokemon' class="center">
+    <app-loader></app-loader>
+</h4>

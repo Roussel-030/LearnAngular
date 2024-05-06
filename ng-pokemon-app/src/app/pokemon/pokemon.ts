@@ -1,4 +1,4 @@
-export interface Pokemon {
+export class Pokemon {
     id: number;
     hp: number;
     cp: number;
@@ -6,4 +6,13 @@ export interface Pokemon {
     picture: string;
     types: Array<string>;
     created: Date;
+
+    constructor() {
+        this.name = "Entrer un nom";
+        this.hp = 100;
+        this.cp = 10;
+        this.picture = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/xxx.png";
+        this.types = ["Normal"];
+        this.created = new Date();
+    }
 }
